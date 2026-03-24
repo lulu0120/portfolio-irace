@@ -1,0 +1,45 @@
+#!/bin/sh
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+RUNNER="$SCRIPT_DIR/qap_runner.R"
+PENALTY="100000000000000000000"
+
+CONFIG_ID=$1
+INSTANCE_ID=$2
+SEED=$3
+INSTANCE=$4
+shift 4 || exit 1
+
+A=""
+P=""
+L=""
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --a)
+      A=$2
+      shift 2
+      ;;
+    --p)
+      P=$2
+      shift 2
+      ;;
+    --l)
+      L=$2
+      shift 2
+      ;;
+    *)
+      shift 1
+      ;;
+  esac
+done
+
+if [ -z "$A" ] || [ -z "$P" ] || [ -z "$L" ]; then
+  echo "$PENALTY"
+  exit 1
+fi
+
+Rscript "$RUNNER" --instance "$INSTANCE" --a "$A" --p "$P" --l "$L" --t 5 --seed "$SEED" 2>/dev/null || {
+  echo "$PENALTY"
+  exit 1
+}

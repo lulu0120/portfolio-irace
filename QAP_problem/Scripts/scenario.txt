@@ -1,0 +1,7 @@
+execDir = "./"
+parameterFile = "./parameters.txt"
+targetRunner = "./target-runner"
+trainInstancesFile = "./train_instances.txt"
+testInstancesFile = "./test_instances.txt"
+maxExperiments = 1000
+deterministic = 0
